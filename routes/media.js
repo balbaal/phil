@@ -42,10 +42,20 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const imagesRes = await Media.findAll({});
+    const imagesRes = await Media.findAll({
+      attributes: ["id", "imageUrl"],
+    });
+    const mappingImages = imagesRes.map((image, i) => {
+      image.imageUrl = `${req.get("host")}/images/${image.imageUrl
+        .split("/")
+        .pop()}`;
+
+      return image;
+    });
+
     res.status(200).json({
       status: "success",
-      data: imagesRes,
+      data: mappingImages,
     });
   } catch (error) {
     console.log("error :>> ", error);
