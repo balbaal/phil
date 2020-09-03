@@ -40,4 +40,20 @@ router.post("/", async (req, res) => {
   );
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const imagesRes = await Media.findAll({});
+    res.status(200).json({
+      status: "success",
+      data: imagesRes,
+    });
+  } catch (error) {
+    console.log("error :>> ", error);
+    res.status(500).json({
+      status: "error",
+      message: error,
+    });
+  }
+});
+
 module.exports = router;
