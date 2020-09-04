@@ -9,7 +9,10 @@ const { Media } = require("../models");
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const imageRes = await Media.findByPk(id);
+  const imageRes = await Media.findOne({
+    where: { id },
+  });
+  res.json({ data: imageRes });
 
   if (!imageRes) {
     return res
